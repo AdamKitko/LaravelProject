@@ -31,10 +31,14 @@
     <img src="{{ asset('images/services1.jpg') }}" alt="HomePageImage" class="w-max">
     <div>
         <p class="font-extrabold text-2xl mt-5 ml-10">Cities with reservation system</p>
-        <ul>
-{{--        @foreach($cities as $city)--}}
-{{--            <li>{{ $city }}}</li>--}}
-{{--        @endforeach--}}
+        <ul class="flex justify-center items-center">
+            @foreach($companies as $company)
+                <a href="{{ route('city-companies', ['city' => $company->city]) }}">
+                    <div class="flex m-5 border pl-5 pr-5 pt-2 pb-2">
+                        {{ $company->city }} >
+                    </div>
+                </a>
+            @endforeach
         </ul>
     </div>
 </main>

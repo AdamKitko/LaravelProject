@@ -27,10 +27,10 @@ class CompanyController extends Controller
 
         return to_route('welcome');
     }
-
-    public function getCities()
+    public function getCompaniesByCity($city)
     {
-        $cities = Company::select('city')->get();
-        return view('welcome', compact('cities'));
+        $companies = Company::where('city', $city)->get();
+        $allcompanies = Company::all();
+        return view('city-companies', ['companies' => $companies, 'allcompanies' => $allcompanies, 'city' => $city]);
     }
 }

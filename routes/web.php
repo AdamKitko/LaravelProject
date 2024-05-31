@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [\App\Http\Controllers\CompanyController::class, 'getCities']);
+Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');
 
 Route::get('/', function () {
     $companies = \App\Models\Company::all();
