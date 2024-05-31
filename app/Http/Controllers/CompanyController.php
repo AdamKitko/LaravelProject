@@ -17,7 +17,7 @@ class CompanyController extends Controller
         ]);
         Company::create($request->all());
 
-        return to_route('companies');
+        return to_route('welcome');
     }
 
     public function delete($id)
@@ -25,6 +25,12 @@ class CompanyController extends Controller
         $company = Company::find($id);
         $company->delete();
 
-        return to_route('companies');
+        return to_route('welcome');
+    }
+
+    public function getCities()
+    {
+        $cities = Company::select('city')->get();
+        return view('welcome', compact('cities'));
     }
 }

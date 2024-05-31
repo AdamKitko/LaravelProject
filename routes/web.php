@@ -3,9 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', [\App\Http\Controllers\CompanyController::class, 'getCities']);
+
 Route::get('/', function () {
     $companies = \App\Models\Company::all();
-    return view('companies', ['companies'=>$companies]);
+    return view('welcome', ['companies'=>$companies]);
 })->name('companies');
 
 Route::post('/', [\App\Http\Controllers\CompanyController::class, 'create']

@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('companies', function(Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
-            $table->string('name', 255);
-            $table->string('city', 100);
-            $table->string('address', 255);
-            $table->string('image', 255);
-            $table->text('description');
-            $table->boolean('active');
+            $table->foreignIdFor(\App\Models\Company::class)->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->float('price');
+            $table->integer('length');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('services');
     }
 };
