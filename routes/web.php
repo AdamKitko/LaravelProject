@@ -3,13 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');
-
-Route::get('/', function () {
-    $companies = \App\Models\Company::all();
-    return view('welcome', ['companies'=>$companies]);
-})->name('companies');
-
 Route::post('/', [\App\Http\Controllers\CompanyController::class, 'create']
 )->name('company.create');
 
@@ -27,3 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');
+Route::get('/', [\App\Http\Controllers\CompanyController::class, 'getCities'])->name('welcome');
+Route::get('/{city}/{name}', [\App\Http\Controllers\CompanyController::class, 'getCompanyName'])->name('company');

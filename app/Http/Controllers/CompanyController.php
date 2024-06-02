@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Company;
 
@@ -30,7 +31,31 @@ class CompanyController extends Controller
     public function getCompaniesByCity($city)
     {
         $companies = Company::where('city', $city)->get();
-        $allcompanies = Company::all();
-        return view('city-companies', ['companies' => $companies, 'allcompanies' => $allcompanies, 'city' => $city]);
+        $cities = DB::table('companies')
+            ->select('city')
+            ->distinct()
+            ->get();
+        return view('city-companies', ['companies' => $companies, 'city' => $city, 'cities' => $cities]);
     }
+
+    public function getCities()
+    {
+        $cities = DB::table('companies')
+                    ->select('city')
+                    ->distinct()
+                    ->get();
+        return view('welcome', ['cities'=>$cities]);
+    }
+
+    public function getCompanyName($city, $name)
+    {
+        $company = Company::where('name', $name)->first();
+
+        if ($company) {
+            return view('company', ['name' => $company->name, 'companies' => Company::all()]);
+        } else {
+            abort(404, 'Company not found');
+        }
+    }
+
 }
