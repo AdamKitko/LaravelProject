@@ -47,15 +47,18 @@ class CompanyController extends Controller
         return view('welcome', ['cities'=>$cities]);
     }
 
-    public function getCompanyName($city, $name)
+    public function getCompany($city, $name)
     {
-        $company = Company::where('name', $name)->first();
+        $company = Company::where('name', $name)->where('city', $city)->with('services')->first();
 
         if ($company) {
-            return view('company', ['name' => $company->name, 'companies' => Company::all()]);
+            return view('company', [
+                'company' => $company,
+                'services' => $company->services,
+                'companies' => Company::all()
+            ]);
         } else {
             abort(404, 'Company not found');
         }
     }
-
 }

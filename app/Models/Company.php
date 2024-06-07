@@ -19,4 +19,9 @@ class Company extends Model
             'description',
             'active'
         ];
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

@@ -23,4 +23,4 @@ require __DIR__.'/auth.php';
 
 Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');
 Route::get('/', [\App\Http\Controllers\CompanyController::class, 'getCities'])->name('welcome');
-Route::get('/{city}/{name}', [\App\Http\Controllers\CompanyController::class, 'getCompanyName'])->name('company');
+Route::get('/{city}/{name}', [\App\Http\Controllers\CompanyController::class, 'getCompany'])->name('company');

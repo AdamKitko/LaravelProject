@@ -8,6 +8,7 @@
     @vite('resources/css/app.css')
     <title>Companies in {{ $city }}</title>
     <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 </head>
 <body class="flex flex-col min-h-screen">
 @include('partials.header1')
