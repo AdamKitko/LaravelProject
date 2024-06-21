@@ -21,6 +21,15 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/pay', 'App\Http\Controllers\StripeController@index')->name('pay-view');
+Route::post('/checkout', 'App\Http\Controllers\StripeController@checkout');
+Route::get('/success', 'App\Http\Controllers\StripeController@success');
+//Route::get('/pay', [\App\Http\Controllers\ReservationController::class, 'pay'])->name('pay-view');
+Route::get('/reserve', [\App\Http\Controllers\ReservationController::class, 'index'])->name('reserve');
 Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');
 Route::get('/', [\App\Http\Controllers\CompanyController::class, 'getCities'])->name('welcome');
 Route::get('/{city}/{name}', [\App\Http\Controllers\CompanyController::class, 'getCompany'])->name('company');
+
+
+
+
