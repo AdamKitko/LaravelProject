@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="p-4 bg-gray-100 flex justify-end">
-                        <a href="{{ route('confirm.reservation', ['id' => $service->id]) }}">
+                        <a href="{{ route('confirm.reservation', ['id' => $service -> id]) }}">
                             <button class="bg-blue-500 text-white px-4 py-2 rounded mr-4">Vytvor rezerváciu</button>
                         </a>
                         <button class="bg-red-500 text-white px-4 py-2 rounded close-modal">Zruš</button>

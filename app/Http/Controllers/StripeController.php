@@ -17,9 +17,15 @@ class StripeController extends Controller
 
     public function showReservationForm($id)
     {
-        $service = Service::findOrFail($id);
-        $reservation_date = '2024-06-22';  // Replace with actual date logic
-        $reservation_time = '14:00';  // Replace with actual time logic
+        try {
+            $service = Service::findOrFail($id);
+        } catch (\Exception $e) {
+            // Handle the exception, e.g., redirect with an error message
+            return redirect()->route('home')->with('error', 'Service not found');
+        }
+
+        $reservation_date = '2024-06-22';
+        $reservation_time = '14:00';
         return view('confirm-reservation', compact('service', 'reservation_date', 'reservation_time'));
     }
 
