@@ -2,52 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-
-use Illuminate\Http\RedirectResponse;
-use Stripe\Checkout\Session;
-use Stripe\Exception\ApiErrorException;
-use Stripe\Stripe;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use App\Models\Service;
 
 class StripeController extends Controller
 {
 
     public function index()
     {
-        return view('succes');
+        $services = Service::all();
+        return view('stripe', compact('services'));
     }
-    public function checkout(): View|Factory|Application
-    {
-        return view('pay-view');
-    }
-    public function test(): RedirectResponse
-    {
-        Stripe::setApiKey(config('stripe.test.sk'));
 
-        $session = Session::create([
-            'line_items'  => [
+    public function showReservationForm($id)
+    {
+        $service = Service::findOrFail($id);
+        $reservation_date = '2024-06-22';  // Replace with actual date logic
+        $reservation_time = '14:00';  // Replace with actual time logic
+        return view('confirm-reservation', compact('service', 'reservation_date', 'reservation_time'));
+    }
+
+    public function stripeCheckout(Request $request)
+    {
+        $service = Service::findOrFail($request->service_id);
+        $stripe = new \Stripe\StripeClient(Config::get('stripe.stripe_secret_key'));
+
+        $redirectUrl = route('stripe.checkout.success') . '?session_id={CHECKOUT_SESSION_ID}';
+        $response = $stripe->checkout->sessions->create([
+            'success_url' => $redirectUrl,
+            'payment_method_types' => ['link', 'card'],
+            'line_items' => [
                 [
                     'price_data' => [
-                        'currency'     => 'eur',
                         'product_data' => [
-                            'name' => 'masn',
+                            'name' => $service->name,
                         ],
-                        'unit_amount'  => 'asdbas',
+                        'unit_amount' => $service->price * 100,
+                        'currency' => 'EUR',
                     ],
-                    'quantity'   => 'asdas',
+                    'quantity' => 1
                 ],
             ],
-            'mode'        => 'payment',
-            'success_url' => route('success'),
-            'cancel_url'  => route('pay-view'),
+            'mode' => 'payment',
+            'allow_promotion_codes' => false
         ]);
 
-        return redirect()->away($session->url);
+        return redirect($response['url']);
     }
-    public function success(): View|Factory|Application
+
+    public function stripeCheckoutSuccess(Request $request)
     {
-        return view('success');
+        $stripe = new \Stripe\StripeClient(Config::get('stripe.stripe_secret_key'));
+
+        $session = $stripe->checkout->sessions->retrieve($request->session_id);
+        info($session);
+
+        $successMessage = "We have received your payment request and will let you know shortly.";
+
+        return view('success', compact('successMessage'));
     }
 }

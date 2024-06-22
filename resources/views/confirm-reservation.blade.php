@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="english">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>Confirm Reservation</title>
-{{--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--}}
 </head>
 <body class="flex flex-col min-h-screen">
 @include('partials.header2')
@@ -20,24 +19,28 @@
             <ul class="list-none mb-4">
                 <li class="flex justify-between py-2">
                     <span class="text-gray-600">Service:</span>
-                    <span class="font-bold">Service Name</span>
+                    <span class="font-bold">{{ $service->name }}</span>
                 </li>
                 <li class="flex justify-between py-2">
                     <span class="text-gray-600">Date:</span>
-                    <span class="font-bold">Date of Reservation</span>
+                    <span class="font-bold">{{ $reservation_date }}</span>
                 </li>
                 <li class="flex justify-between py-2">
                     <span class="text-gray-600">Time:</span>
-                    <span class="font-bold">Time of Reservation</span>
+                    <span class="font-bold">{{ $reservation_time }}</span>
                 </li>
                 <li class="flex justify-between py-2">
                     <span class="text-gray-600">Price:</span>
-                    <span class="font-bold">€ </span>
+                    <span class="font-bold">€{{ $service->price }}</span>
                 </li>
             </ul>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="location.href='{{ route('pay-view') }}'">
-                Confirm and Pay
-            </button>
+            <form action="{{ route('stripe.checkout') }}" method="POST">
+                @csrf
+                <input type="hidden" name="service_id" value="{{ $service->id }}">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Confirm and Pay
+                </button>
+            </form>
         </div>
     </div>
 </main>

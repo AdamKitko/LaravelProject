@@ -21,11 +21,11 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/pay', 'App\Http\Controllers\StripeController@index')->name('pay-view');
-Route::post('/checkout', 'App\Http\Controllers\StripeController@checkout');
-Route::get('/success', 'App\Http\Controllers\StripeController@success');
+Route::get('/confirm-reservation/{id}', [\App\Http\Controllers\StripeController::class, 'showReservationForm'])->name('confirm.reservation');
+Route::post('/stripe-checkout', [\App\Http\Controllers\StripeController::class, 'stripeCheckout'])->name('stripe.checkout');
+Route::get('/stripe-checkout-success', [\App\Http\Controllers\StripeController::class, 'stripeCheckoutSuccess'])->name('stripe.checkout.success');
 //Route::get('/pay', [\App\Http\Controllers\ReservationController::class, 'pay'])->name('pay-view');
-Route::get('/reserve', [\App\Http\Controllers\ReservationController::class, 'index'])->name('reserve');
+Route::get('/reserve', [\App\Http\Controllers\ReservationController::class, 'index'])->name('confirm-reservation');
 Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');
 Route::get('/', [\App\Http\Controllers\CompanyController::class, 'getCities'])->name('welcome');
 Route::get('/{city}/{name}', [\App\Http\Controllers\CompanyController::class, 'getCompany'])->name('company');
