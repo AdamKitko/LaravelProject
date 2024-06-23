@@ -20,7 +20,6 @@ class StripeController extends Controller
         try {
             $service = Service::findOrFail($id);
         } catch (\Exception $e) {
-            // Handle the exception, e.g., redirect with an error message
             return redirect()->route('home')->with('error', 'Service not found');
         }
 

@@ -9,6 +9,7 @@
         "askedio/laravel-soft-cascade": "^11.0",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "paypal/rest-api-sdk-php": "^1.6",
         "stripe/stripe-php": "^14.10"
     },
     "require-dev": {

@@ -24,11 +24,20 @@ require __DIR__.'/auth.php';
 Route::get('/confirm-reservation/{id}', [\App\Http\Controllers\StripeController::class, 'showReservationForm'])->name('confirm.reservation');
 Route::post('/stripe-checkout', [\App\Http\Controllers\StripeController::class, 'stripeCheckout'])->name('stripe.checkout');
 Route::get('/stripe-checkout-success', [\App\Http\Controllers\StripeController::class, 'stripeCheckoutSuccess'])->name('stripe.checkout.success');
-//Route::get('/pay', [\App\Http\Controllers\ReservationController::class, 'pay'])->name('pay-view');
+
+Route::post('/paypal-checkout', [\App\Http\Controllers\PayPalController::class, 'payWithPayPal'])->name('paypal.checkout');
+Route::get('/paypal-success', [\App\Http\Controllers\PayPalController::class, 'paypalSuccess'])->name('paypal.success');
+Route::get('/paypal-cancel', [\App\Http\Controllers\PayPalController::class, 'paypalCancel'])->name('paypal.cancel');
+
+Route::put('/services/{id}', [\App\Http\Controllers\ServiceController::class, 'update'])->name('services.update');
+Route::post('/services/store', [\App\Http\Controllers\ServiceController::class, 'store'])->name('services.store');
+Route::get('/services/{id}/edit', [\App\Http\Controllers\ServiceController::class, 'edit'])->name('services.edit');
+
 Route::get('/reserve', [\App\Http\Controllers\ReservationController::class, 'index'])->name('confirm-reservation');
 Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');
 Route::get('/', [\App\Http\Controllers\CompanyController::class, 'getCities'])->name('welcome');
 Route::get('/{city}/{name}', [\App\Http\Controllers\CompanyController::class, 'getCompany'])->name('company');
+
 
 
 

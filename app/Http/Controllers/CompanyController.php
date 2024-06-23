@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Company;
@@ -55,7 +56,8 @@ class CompanyController extends Controller
             return view('company', [
                 'company' => $company,
                 'services' => $company->services,
-                'companies' => Company::all()
+                'companies' => Company::all(),
+                'loggedInUserId' => auth()->check() ? auth()->user()->id : null
             ]);
         } else {
             abort(404, 'Company not found');
