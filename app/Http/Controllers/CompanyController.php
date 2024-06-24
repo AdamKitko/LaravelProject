@@ -12,23 +12,47 @@ class CompanyController extends Controller
 {
     use \Illuminate\Foundation\Validation\ValidatesRequests;
 
-    public function create(Request $request)
+    public function create()
+    {
+        return view('company-form');
+    }
+
+    public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'image' => ['nullable', 'url'],
         ]);
-        Company::create($request->all());
 
-        return to_route('welcome');
+        $company = new Company();
+        $company->user_id = Auth::id();
+        $company->name = $request->name;
+        $company->city = $request->city;
+        $company->address = $request->address;
+        $company->description = $request->description;
+        $company->active = 1;
+
+        if ($request->image) {
+            $company->image = $request->image;
+        }
+
+        $company->save();
+
+        return redirect()->route('welcome');
     }
+
 
     public function delete($id)
     {
         $company = Company::find($id);
         $company->delete();
 
-        return to_route('welcome');
+        return redirect()->route('welcome');
     }
+
     public function getCompaniesByCity($city)
     {
         $companies = Company::where('city', $city)->get();
@@ -42,10 +66,10 @@ class CompanyController extends Controller
     public function getCities()
     {
         $cities = DB::table('companies')
-                    ->select('city')
-                    ->distinct()
-                    ->get();
-        return view('welcome', ['cities'=>$cities]);
+            ->select('city')
+            ->distinct()
+            ->get();
+        return view('welcome', ['cities' => $cities]);
     }
 
     public function getCompany($city, $name)

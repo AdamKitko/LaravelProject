@@ -29,9 +29,14 @@ Route::post('/paypal-checkout', [\App\Http\Controllers\PayPalController::class, 
 Route::get('/paypal-success', [\App\Http\Controllers\PayPalController::class, 'paypalSuccess'])->name('paypal.success');
 Route::get('/paypal-cancel', [\App\Http\Controllers\PayPalController::class, 'paypalCancel'])->name('paypal.cancel');
 
+Route::get('/company/create', [\App\Http\Controllers\CompanyController::class, 'create'])->name('company.create');
+Route::post('/company/store', [\App\Http\Controllers\CompanyController::class, 'store'])->name('company.store');
+
 Route::put('/services/{id}', [\App\Http\Controllers\ServiceController::class, 'update'])->name('services.update');
 Route::post('/services/store', [\App\Http\Controllers\ServiceController::class, 'store'])->name('services.store');
 Route::get('/services/{id}/edit', [\App\Http\Controllers\ServiceController::class, 'edit'])->name('services.edit');
+
+Route::get('/user/reservations', [\App\Http\Controllers\ReservationController::class, 'myReservations'])->name('user.reservations');
 
 Route::get('/reserve', [\App\Http\Controllers\ReservationController::class, 'index'])->name('confirm-reservation');
 Route::get('/{city}', [\App\Http\Controllers\CompanyController::class, 'getCompaniesByCity'])->name('city-companies');

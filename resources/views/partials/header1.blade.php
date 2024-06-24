@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between  border border-gray-400">
+<header class="flex items-center justify-between border border-gray-400">
     <div class="p-4 mx-20 flex justify-between items-center">
         <a href="{{ route('welcome') }}">Reservation System</a>
         <span id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
@@ -26,6 +26,10 @@
     @if(Route::has('login'))
         <div class="relative mx-20 p-4 text-right" x-data="{ dropdownOpen: false }">
             @auth
+                <a href="{{ route('company.create') }}"
+                   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Create Company
+                </a>
                 <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         type="button">{{ Auth::user()->name }}
@@ -41,6 +45,10 @@
                         <li>
                             <a href="{{ route('profile.edit') }}"
                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('user.reservations') }}"
+                               class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Moje rezervácie</a>
                         </li>
                     </ul>
                     <div class="py-2">

@@ -37,8 +37,18 @@
             <form action="{{ route('stripe.checkout') }}" method="POST">
                 @csrf
                 <input type="hidden" name="service_id" value="{{ $service->id }}">
+                <input type="hidden" name="reservation_date" value="{{ $reservation_date }}">
+                <input type="hidden" name="reservation_time" value="{{ $reservation_time }}">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Confirm and Pay
+                    Confirm and Pay with Stripe
+                </button>
+            </form>
+
+            <form action="{{ route('paypal.checkout') }}" method="POST" class="mt-4">
+                @csrf
+                <input type="hidden" name="service_id" value="{{ $service->id }}">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Confirm and Pay with PayPal
                 </button>
             </form>
         </div>

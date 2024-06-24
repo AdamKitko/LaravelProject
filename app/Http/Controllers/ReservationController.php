@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -11,8 +13,11 @@ class ReservationController extends Controller
         return view('confirm-reservation');
     }
 
-    public function pay()
+    public function myReservations()
     {
-        return view('pay-view');
+        $user = Auth::user();
+        $reservations = Reservation::with('service.company')->where('user_id', $user->id)->get();
+
+        return view('reservations-index', compact('reservations'));
     }
 }

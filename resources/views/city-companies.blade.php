@@ -19,7 +19,7 @@
             @foreach($companies as $company)
                 <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ml-4 w-1/3">
                     <a href="{{ route('company', ['city' => $city, 'name' => $company->name]) }}">
-                        <img class="rounded-t-lg" src="{{ $company->image }}" alt=""/>
+                        <img class="rounded-t-lg" src="{{ strpos($company->image, 'http') === 0 ? $company->image : asset($company->image) }}" alt="{{ $company->name }}"/>
                     </a>
                     <div class="p-5">
                         <a href="{{ route('company', ['city' => $city, 'name' => $company->name]) }}">
@@ -28,8 +28,8 @@
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $company->description }}</p>
                     </div>
                 </div>
-
             @endforeach
+
         </ul>
     </div>
 </main>

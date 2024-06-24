@@ -16,7 +16,7 @@
         </svg>
         <h1 class="mt-4 text-2xl font-bold text-gray-900">Payment Successful</h1>
         <p class="mt-2 text-gray-600">{{ $successMessage }}</p>
-        <a href="{{ url('/') }}" class="mt-4 inline-block px-6 py-2 text-white bg-blue-600 rounded-full hover:bg-blue-700">Go to Home</a>
+        <a href="{{ url('/') }}" class="mt-4 inline-block px-6 py-2 text-black bg-blue-600 rounded-full hover:bg-blue-700">Go to Home</a>
     </div>
 </div>
 </body>
