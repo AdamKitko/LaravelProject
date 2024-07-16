@@ -21,6 +21,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/map/{city}', [\App\Http\Controllers\MapController::class, 'index'])->name('map');
+
 Route::get('/confirm-reservation/{id}', [\App\Http\Controllers\StripeController::class, 'showReservationForm'])->name('confirm.reservation');
 Route::post('/stripe-checkout', [\App\Http\Controllers\StripeController::class, 'stripeCheckout'])->name('stripe.checkout');
 Route::get('/stripe-checkout-success', [\App\Http\Controllers\StripeController::class, 'stripeCheckoutSuccess'])->name('stripe.checkout.success');

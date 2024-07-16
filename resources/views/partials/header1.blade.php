@@ -22,6 +22,7 @@
                 @endforeach
             </ul>
         </div>
+        <a href="{{ route('map', ['city' => $city]) }}">Mapa</a>
     </div>
     @if(Route::has('login'))
         <div class="relative mx-20 p-4 text-right" x-data="{ dropdownOpen: false }">
