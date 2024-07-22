@@ -25,6 +25,8 @@ class CompanyController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'image' => ['nullable', 'url'],
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
         $company = new Company();
@@ -33,6 +35,8 @@ class CompanyController extends Controller
         $company->city = $request->city;
         $company->address = $request->address;
         $company->description = $request->description;
+        $company->latitude = $request->latitude;
+        $company->longitude = $request->longitude;
         $company->active = 1;
 
         if ($request->image) {

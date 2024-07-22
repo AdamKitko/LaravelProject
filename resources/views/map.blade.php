@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaflet Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     <style>
         #map {
             height: 500px;
@@ -23,8 +23,8 @@
     var bounds = L.latLngBounds(southWest, northEast);
 
     map.setMaxBounds(bounds);
-    map.on('drag', function() {
-        map.panInsideBounds(bounds, { animate: false });
+    map.on('drag', function () {
+        map.panInsideBounds(bounds, {animate: false});
     });
 
     var jawgSunny = L.tileLayer('https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token=gSy4xioyZfP4TisrJnuu5J8deA9cNz3mFVw88Y1jnQJpXT2ztwjfYiGYEyztnWo5', {
@@ -48,46 +48,18 @@
 
     var companies = @json($companies);
 
-    companies.forEach(function(company) {
+    companies.forEach(function (company) {
         var fullAddress = `${company.address}, ${company.city}`;
-        geocodeAddress(fullAddress, function(latLng) {
-            if (latLng) {
-                var marker = L.marker([latLng.lat, latLng.lng]).addTo(map);
-                marker.bindPopup(`<b>${company.name}</b><br>${fullAddress}`).openPopup();
-            } else {
-                console.error('Geocoding failed for address:', fullAddress);
-            }
-        });
+        var marker = L.marker([company.latitude, company.longitude]).addTo(map);
+        marker.bindPopup(`<b>${company.name}</b><br>${fullAddress}`).openPopup();
     });
-
-    function geocodeAddress(address, callback) {
-        var url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.length > 0) {
-                    var latLng = {
-                        lat: data[0].lat,
-                        lng: data[0].lon
-                    };
-                    callback(latLng);
-                } else {
-                    console.error('No results found for address:', address);
-                    callback(null);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                callback(null);
-            });
-    }
 
     var parkingData = @json($parkingData);
 
-    parkingData.forEach(function(lot) {
+    parkingData.forEach(function (lot) {
         var coordinates = JSON.parse(lot.coordinates);
 
-        var polygon = L.polygon(coordinates, { color: lot.polygon_color })
+        var polygon = L.polygon(coordinates, {color: lot.polygon_color})
             .addTo(map)
             .bindPopup(`<b>Parking Lot</b><br>${lot.description}<br>Capacity: ${lot.total_capacity}<br>${lot.address}`);
     });

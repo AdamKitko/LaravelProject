@@ -9,7 +9,7 @@
 <body class="bg-gray-200 font-sans">
 <div class="container mx-auto max-w-lg py-4 px-4">
     <h1 class="text-2xl font-bold mb-4">Create a New Company</h1>
-    <form method="POST" action="{{ route('company.store') }}" enctype="multipart/form-data" class="space-y-4">
+    <form method="POST" action="{{ route('company.store') }}" enctype="multipart/form-data" class="space-y-4" id="companyForm">
         @csrf
         <div class="flex flex-col">
             <label for="name" class="text-gray-700 font-medium mb-1">Company Name</label>
@@ -46,4 +46,39 @@
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="hidden" name="longitude" id="longitude">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create</button>
+    </form>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('companyForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting immediately
+
+        let address = document.getElementById('address').value;
+        let city = document.getElementById('city').value;
+        let fullAddress = `${address}, ${city}`;
+
+        axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}`)
+            .then(function(response) {
+                if (response.data.length > 0) {
+                    let latitude = response.data[0].lat;
+                    let longitude = response.data[0].lon;
+
+                    document.getElementById('latitude').value = latitude;
+                    document.getElementById('longitude').value = longitude;
+
+                    document.getElementById('companyForm').submit();
+                } else {
+                    alert('Geocoding failed: Address not found.');
+                }
+            })
+            .catch(function(error) {
+                console.error('Geocoding error:', error);
+                alert('Geocoding failed: Unable to process the address.');
+            });
+    });
+</script>
+</body>
+</html>
